@@ -1,18 +1,35 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+#include "config.h"
+#include "wifi_manager.h"
+#include "relay.h"
+#include "api.h"
+
+unsigned long lastHeartbeat = 0;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(115200);
+
+  relayBegin();
+
+  wifiBegin();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
+  wifiReconnect();
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  if (millis() - lastHeartbeat > 10000) {
+    sendHeartbeat();
+    lastHeartbeat = millis();
+  }
+
+  bool status = getRelayStatus();
+
+  if(status) {
+    relayOn();
+  } else {
+    relayOff();
+  }
+
+  delay(200);
 }
