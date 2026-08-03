@@ -20,6 +20,12 @@ out/
 # production
 build
 
+# AI editors
+.claude/
+.windsurf/
+skills/
+skills-lock.json
+
 # misc
 .DS_Store
 *.pem
