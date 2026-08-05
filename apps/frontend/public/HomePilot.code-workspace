@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"name": "HomePilot",
+			"path": "../../../firmware/esp32/HomePilot"
+		}
+	],
+	"settings": {
+		"prisma.pinToPrisma6": false
+	}
+}

@@ -6,8 +6,8 @@ interface DeviceCardProps {
   name: string;
   room: string;
   online: boolean;
-  temperature: number;
-  humidity: number;
+  // temperature: number;
+  // humidity: number;
   relay: boolean;
 }
 
@@ -15,8 +15,8 @@ export default function DeviceCard({
   name,
   room,
   online,
-  temperature,
-  humidity,
+  // temperature,
+  // humidity,
   relay,
 }: DeviceCardProps) {
   return (
@@ -38,13 +38,13 @@ export default function DeviceCard({
           <div className="flex items-center gap-2">
             <Thermometer size={18} />
 
-            <span>{temperature}°C</span>
+            <span>30°C</span>
           </div>
 
           <div className="flex items-center gap-2">
             <Droplets size={18} />
 
-            <span>{humidity}%</span>
+            <span>50%</span>
           </div>
         </div>
 

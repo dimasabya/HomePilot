@@ -1,21 +1,27 @@
-import api from "@/lib/api";
+import { DeviceRepository } from "../repositories/device.repository";
 
 export class DeviceService {
   static async getAll() {
-    const res = await api.get("/devices");
-    return res.data;
+    return DeviceRepository.getAll();
   }
 
   static async getById(id: number) {
-    const res = await api.get(`/devices/${id}`);
-    return res.data;
+    return DeviceRepository.getById(id);
   }
 
   static async updateRelay(id: number, relay: boolean) {
-    const res = await api.patch(`/devices/${id}/relay`, {
-      relay,
-    });
+    return DeviceRepository.updateRelay(id, relay);
+  }
 
-    return res.data;
+  static async create(payload: unknown) {
+    return DeviceRepository.create(payload);
+  }
+
+  static async update(id: number, payload: unknown) {
+    return DeviceRepository.update(id, payload);
+  }
+
+  static async delete(id: number) {
+    return DeviceRepository.delete(id);
   }
 }

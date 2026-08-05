@@ -89,3 +89,67 @@ export async function getDeviceStatus(req: Request, res: Response) {
     });
   }
 }
+
+export async function createDevice(req: Request, res: Response) {
+  try {
+    const { name, code, room, ip } = req.body;
+
+    const device = await prisma.device.create({
+      data: {
+        name,
+        code,
+        room,
+        ip,
+      },
+    });
+
+    res.json(device);
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed create device",
+    });
+  }
+}
+
+export async function updateDevice(req: Request, res: Response) {
+  try {
+    const id = Number(req.params.id);
+
+    const { name, code, room, ip } = req.body;
+
+    const device = await prisma.device.update({
+      where: {
+        id,
+      },
+
+      data: {
+        name,
+        code,
+        room,
+        ip,
+      },
+    });
+
+    res.json(device);
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed update device",
+    });
+  }
+}
+
+export async function deleteDevice(req: Request, res: Response) {
+  try {
+    const id = Number(req.params.id);
+
+    await DeviceService.deleteDevice(id);
+
+    res.json({
+      message: "Device deleted",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed delete device",
+    });
+  }
+}

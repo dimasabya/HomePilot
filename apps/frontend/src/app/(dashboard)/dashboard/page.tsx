@@ -1,14 +1,47 @@
-import { Cpu, Thermometer, Power, Wifi } from "lucide-react";
+"use client";
 
-import StatCard from "@/features/dashboard/components/StatCard";
+import { Cpu, Power, Thermometer, Wifi } from "lucide-react";
+
 import DeviceCard from "@/features/dashboard/components/DeviceCard";
 import RecentActivity from "@/features/dashboard/components/RecentActivity";
-import { DashboardService } from "@/features/dashboard/services/dashboard.service";
+import StatCard from "@/features/dashboard/components/StatCard";
+import {
+  DashboardService,
+  DashboardServices,
+} from "@/features/dashboard/services/dashboard.service";
+import { useDashboardStore } from "@/store/dashboardStore";
+import { useDeviceStore } from "@/store/deviceStore";
+import { useEffect } from "react";
 
 export default function DashboardPage() {
   const stat = DashboardService.getStats();
   const devices = DashboardService.getDevices();
   const activities = DashboardService.getActivities();
+
+  const devicesOnline = useDeviceStore((state) => state.devices);
+
+  const onlineDevice = devicesOnline.filter((device) => device.online);
+  console.log(onlineDevice);
+  console.log(devicesOnline);
+
+  const relayOnDevice = devicesOnline.filter((d) => d.relay);
+
+  const setSummary = useDashboardStore((state) => state.setSummary);
+
+  const { offlineDevices, onlineDevices, relayOff, relayOn, totalDevices } =
+    useDashboardStore();
+
+  useEffect(() => {
+    async function load() {
+      const summary = await DashboardServices.getSummary();
+
+      setSummary(summary);
+    }
+
+    load();
+  }, [setSummary]);
+
+  console.log(setSummary);
 
   return (
     <div className="space-y-6">
@@ -21,13 +54,13 @@ export default function DashboardPage() {
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         <StatCard
           title="Devices"
-          value={stat.devices}
+          value={totalDevices}
           icon={<Cpu size={24} />}
         />
 
         <StatCard
           title="Online"
-          value={stat.online}
+          value={onlineDevices}
           icon={<Wifi size={24} />}
         />
 
@@ -46,7 +79,7 @@ export default function DashboardPage() {
 
       <div className="space-y-4">
         <h2 className="text-xl font-semibold">Devices</h2>
-        {devices.map((device) => (
+        {onlineDevice.map((device) => (
           <DeviceCard key={device.id} {...device} />
         ))}
 

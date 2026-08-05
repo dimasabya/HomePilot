@@ -1,3 +1,4 @@
+import api from "@/lib/api";
 import {
   dashboardActivities,
   dashboardDevices,
@@ -17,3 +18,11 @@ export const DashboardService = {
     return dashboardActivities;
   },
 };
+
+export class DashboardServices {
+  static async getSummary() {
+    const res = await api.get("/dashboard/summary");
+
+    return res.data;
+  }
+}

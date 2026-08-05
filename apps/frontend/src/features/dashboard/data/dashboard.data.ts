@@ -43,3 +43,5 @@ export const dashboardActivities: DashboardActivity[] = [
     type: "humidity",
   },
 ];
+
+import api from "@/lib/api";

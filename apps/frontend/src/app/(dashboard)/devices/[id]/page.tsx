@@ -1,9 +1,4 @@
-import { notFound } from "next/navigation";
-
-import { DeviceService } from "@/features/device/services/device.service";
-
-import DeviceInfo from "@/features/device/components/DeviceInfo";
-import RelayControl from "@/features/device/components/RelayControl";
+import DeviceDetailClient from "@/features/device/components/DeviceDetailClient";
 
 interface Props {
   params: Promise<{
@@ -14,17 +9,5 @@ interface Props {
 export default async function DeviceDetailPage({ params }: Props) {
   const { id } = await params;
 
-  const device = await DeviceService.getById(Number(id));
-
-  if (!device) {
-    notFound();
-  }
-
-  return (
-    <div className="space-y-6">
-      <DeviceInfo device={device} />
-
-      <RelayControl device={device} />
-    </div>
-  );
+  return <DeviceDetailClient id={Number(id)} />;
 }

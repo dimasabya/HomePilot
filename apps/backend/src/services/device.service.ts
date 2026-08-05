@@ -28,4 +28,12 @@ export class DeviceService {
       },
     });
   }
+
+  static async deleteDevice(id: number) {
+    return prisma.device.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }
