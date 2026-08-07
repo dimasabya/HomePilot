@@ -46,12 +46,14 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <h1 className="md:text-3xl text-xl font-bold">Dashboard</h1>
 
-        <p className="text-muted-foreground">Welcome back to HomePilot</p>
+        <p className="text-muted-foreground md:text-sm text-xs">
+          Welcome back to HomePilot
+        </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid md:gap-6 gap-2 md:grid-cols-2 xl:grid-cols-4 grid-cols-2">
         <StatCard
           title="Devices"
           value={totalDevices}
@@ -78,19 +80,10 @@ export default function DashboardPage() {
       </div>
 
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold">Devices</h2>
+        <h2 className="md:text-xl text-lg font-semibold">Devices</h2>
         {onlineDevice.map((device) => (
           <DeviceCard key={device.id} {...device} />
         ))}
-
-        {/* <DeviceCard
-          name="Living Room Fan"
-          room="Living Room"
-          online={true}
-          temperature={29}
-          humidity={72}
-          relay={false}
-        /> */}
       </div>
 
       <RecentActivity activities={activities} />

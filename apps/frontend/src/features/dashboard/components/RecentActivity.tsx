@@ -14,7 +14,7 @@ interface RecentActivityProps {
 export default function RecentActivity({ activities }: RecentActivityProps) {
   return (
     <div className="rounded-xl border bg-card">
-      <div className="border-b p-5">
+      <div className="border-b md:p-5 p-2">
         <h2 className="font-semibold">Recent Activity</h2>
       </div>
 
@@ -25,7 +25,7 @@ export default function RecentActivity({ activities }: RecentActivityProps) {
           return (
             <div
               key={index}
-              className="flex items-center justify-between border-b px-5 py-4 last:border-0"
+              className="flex items-center justify-between border-b md:px-5 px-3 md:py-4 py-2 last:border-0 md:text-sm text-xs"
             >
               <div className="flex items-center gap-3">
                 <div className="rounded-lg bg-primary/10 p-2 text-primary">
@@ -35,7 +35,7 @@ export default function RecentActivity({ activities }: RecentActivityProps) {
                 <span>{activity.title}</span>
               </div>
 
-              <span className="text-sm text-muted-foreground">
+              <span className="md:text-sm text-xs text-muted-foreground">
                 {activity.time}
               </span>
             </div>

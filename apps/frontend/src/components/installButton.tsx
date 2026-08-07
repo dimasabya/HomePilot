@@ -11,10 +11,10 @@ export default function InstallButton() {
   return (
     <button
       onClick={install}
-      className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700"
+      className="flex items-center gap-2 rounded-lg bg-blue-600 md:px-4 px-2 md:py-2 text-white transition hover:bg-blue-700"
     >
       <Download size={18} />
-      Install App
+      <p className="text-sm">Install App</p>
     </button>
   );
 }

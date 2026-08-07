@@ -21,12 +21,12 @@ export default function DeviceCard({
 }: DeviceCardProps) {
   return (
     <Card>
-      <CardContent className="space-y-5 p-6">
+      <CardContent className="space-y-5 md:p-6 p-2">
         <div className="flex items-start justify-between">
           <div>
-            <h3 className="text-lg font-semibold">{name}</h3>
+            <h3 className="md:text-lg text-sm font-semibold">{name}</h3>
 
-            <p className="text-sm text-muted-foreground">{room}</p>
+            <p className="md:text-sm text-xs text-muted-foreground">{room}</p>
           </div>
 
           <Badge variant={online ? "default" : "secondary"}>
@@ -34,7 +34,7 @@ export default function DeviceCard({
           </Badge>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 md:text-sm text-xs">
           <div className="flex items-center gap-2">
             <Thermometer size={18} />
 
@@ -48,7 +48,7 @@ export default function DeviceCard({
           </div>
         </div>
 
-        <div className="flex items-center justify-between rounded-lg border p-3">
+        <div className="flex items-center justify-between rounded-lg border md:p-3 p-2 md:text-sm text-xs">
           <span className="flex items-center gap-2">
             <Power size={18} />
             Relay
