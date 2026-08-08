@@ -18,7 +18,7 @@ export class DeviceService {
   }
 
   static async update(id: number, payload: unknown) {
-    return DeviceRepository.update(id, payload);
+    return DeviceRepository.update(id, payload as any);
   }
 
   static async delete(id: number) {
