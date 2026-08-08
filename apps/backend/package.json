@@ -4,8 +4,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch src/server.ts",
+    "build": "prisma generate",
     "start": "tsx src/server.ts",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push"
