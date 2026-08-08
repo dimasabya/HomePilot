@@ -36,12 +36,16 @@ export default function DeviceCard({ device, onEdit }: Props) {
   return (
     <>
       <Card className="transition-shadow hover:shadow-md">
-        <CardContent className="space-y-5 p-6">
+        <CardContent className="space-y-5 md:p-6 p-2">
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-lg font-semibold">{device.name}</h2>
+              <h2 className="md:text-lg text-base font-semibold">
+                {device.name}
+              </h2>
 
-              <p className="text-sm text-muted-foreground">{device.code}</p>
+              <p className="md:text-sm text-xs text-muted-foreground">
+                {device.code}
+              </p>
             </div>
 
             <Badge variant={device.online ? "default" : "secondary"}>
@@ -49,7 +53,7 @@ export default function DeviceCard({ device, onEdit }: Props) {
             </Badge>
           </div>
 
-          <div className="space-y-3">
+          <div className="md:space-y-3 space-y-2">
             <div className="flex items-center gap-2">
               <Cpu size={18} />
               <span>{device.room}</span>
@@ -71,24 +75,24 @@ export default function DeviceCard({ device, onEdit }: Props) {
             </div>
           </div>
 
-          <div className="flex justify-end border-t pt-4 gap-4">
+          <div className="flex justify-end border-t md:pt-4 pt-2 gap-4">
             <Link
               href={`/devices/${device.id}`}
-              className="flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+              className="flex items-center gap-2 md:text-sm text-xs font-medium text-primary hover:underline"
             >
               Detail
               <ChevronRight size={16} />
             </Link>
             <button
               onClick={() => onEdit(device)}
-              className="rounded-lg border px-3 py-2"
+              className="rounded-lg border md:px-3 px-2 md:py-2 text-sm md:text-base"
             >
               Edit
             </button>
 
             <button
               onClick={() => setDeleteOpen(true)}
-              className="rounded-lg border border-red-500 px-3 py-1 text-red-500"
+              className="rounded-lg border border-red-500 md:px-3 px-2 md:py-1 text-sm md:text-base text-red-500"
             >
               Delete
             </button>

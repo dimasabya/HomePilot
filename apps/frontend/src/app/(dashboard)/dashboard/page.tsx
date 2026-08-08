@@ -12,6 +12,7 @@ import {
 import { useDashboardStore } from "@/store/dashboardStore";
 import { useDeviceStore } from "@/store/deviceStore";
 import { useEffect } from "react";
+import PageTitle from "@/components/common/PageTitle";
 
 export default function DashboardPage() {
   const stat = DashboardService.getStats();
@@ -46,7 +47,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="md:text-3xl text-xl font-bold">Dashboard</h1>
+        <PageTitle title="Dashboard" />
 
         <p className="text-muted-foreground md:text-sm text-xs">
           Welcome back to HomePilot

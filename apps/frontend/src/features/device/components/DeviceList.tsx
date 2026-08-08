@@ -33,20 +33,6 @@ export default function DeviceList() {
 
   const ITEMS_PER_PAGE = 4;
 
-  // useEffect(() => {
-  //   const interval = setInterval(async () => {
-  //     try {
-  //       const data = await DeviceService.getAll();
-
-  //       setDevices(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }, 5000);
-
-  //   return () => clearInterval(interval);
-  // }, []);
-
   let filteredDevices = [...devices];
 
   filteredDevices = filteredDevices.filter((device) => {
@@ -99,26 +85,26 @@ export default function DeviceList() {
   }, [search, statusFilter, roomFilter, sortBy]);
   return (
     <>
-      <div className="mb-6 flex items-center gap-3">
+      <div className="md:mb-6 mb-2 flex items-center md:gap-3 gap-2">
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search device..."
-          className="w-full rounded-lg border px-4 py-2"
+          className="w-full rounded-lg border md:px-4 px-2 md:py-2 text-sm md:text-base"
         />
 
         <button
           onClick={() => setOpen(true)}
-          className="rounded-lg bg-primary px-4 py-2 text-white"
+          className="rounded-lg bg-primary md:px-4 px-2 md:py-2 text-white text-sm md:text-base"
         >
           Search
         </button>
       </div>
-      <div className="mt-4 flex flex-wrap gap-3">
+      <div className="md:mt-4 flex flex-wrap md:gap-3 gap-2">
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value as any)}
-          className="rounded-lg border px-3 py-2"
+          className="rounded-lg border md:px-3 px-2 md:py-2 text-sm md:text-base"
         >
           <option value="all">All Status</option>
           <option value="online">Online</option>
@@ -128,7 +114,7 @@ export default function DeviceList() {
         <select
           value={roomFilter}
           onChange={(e) => setRoomFilter(e.target.value)}
-          className="rounded-lg border px-3 py-2"
+          className="rounded-lg border md:px-3 px-2 md:py-2 text-sm md:text-base"
         >
           <option value="all">All Rooms</option>
 
@@ -138,7 +124,7 @@ export default function DeviceList() {
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value as any)}
-          className="rounded-lg border px-3 py-2"
+          className="rounded-lg border md:px-3 px-2 md:py-2 text-sm md:text-base"
         >
           <option value="name-asc">Name A-Z</option>
           <option value="name-desc">Name Z-A</option>
@@ -159,7 +145,7 @@ export default function DeviceList() {
       <div className="">
         <button
           onClick={() => setOpen(true)}
-          className="rounded-lg bg-primary px-4 py-2 text-white"
+          className="rounded-lg bg-primary md:px-4 px-2 md:py-2 text-white text-sm md:text-base"
         >
           + Add Device
         </button>
@@ -170,12 +156,12 @@ export default function DeviceList() {
         />
         <AddDeviceDialog open={open} onClose={() => setOpen(false)} />
       </div>
-      <p className="text-sm text-muted-foreground">
+      <p className="md:text-sm text-xs text-muted-foreground">
         Showing {paginatedDevices.length} of {filteredDevices.length} devices
       </p>
       <div className="grid gap-6 md:grid-cols-2">
         {paginatedDevices.length === 0 ? (
-          <div className="rounded-xl border p-8 text-center text-muted-foreground">
+          <div className="rounded-xl border p-8 text-center text-muted-foreground text-sm md:text-base">
             Device tidak ditemukan
           </div>
         ) : (
@@ -188,11 +174,11 @@ export default function DeviceList() {
           ))
         )}
       </div>
-      <div className="mt-8 flex items-center justify-center gap-2">
+      <div className="md:mt-8 mt-4 flex items-center justify-center gap-2">
         <button
           disabled={currentPage === 1}
           onClick={() => setCurrentPage((p) => p - 1)}
-          className="rounded border px-3 py-2 disabled:opacity-50"
+          className="rounded border md:px-3 px-2 md:py-2 disabled:opacity-50"
         >
           Prev
         </button>
@@ -201,7 +187,7 @@ export default function DeviceList() {
           <button
             key={index}
             onClick={() => setCurrentPage(index + 1)}
-            className={`rounded border px-3 py-2 ${
+            className={`rounded border md:px-3 px-2 md:py-2 ${
               currentPage === index + 1 ? "bg-primary text-white" : ""
             }`}
           >
@@ -212,7 +198,7 @@ export default function DeviceList() {
         <button
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage((p) => p + 1)}
-          className="rounded border px-3 py-2 disabled:opacity-50"
+          className="rounded border md:px-3 px-2 md:py-2 disabled:opacity-50"
         >
           Next
         </button>
