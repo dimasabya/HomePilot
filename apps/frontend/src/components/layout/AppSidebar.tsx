@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { LayoutDashboard, Cpu, Bot, History, Settings } from "lucide-react";
 import Image from "next/image";
 
-import logo from "@/assets/logo.png";
+import logo from "@/assets/Logo.png";
 
 const menus = [
   {
