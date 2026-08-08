@@ -9,4 +9,4 @@
 #define RELAY_PIN 23
 
 // api
-#define API_URL "http://192.168.1.101:3001"
+#define API_URL "https://homepilot-production-5e5f.up.railway.app"

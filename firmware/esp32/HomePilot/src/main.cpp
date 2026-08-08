@@ -6,6 +6,7 @@
 #include "api.h"
 
 unsigned long lastHeartbeat = 0;
+unsigned long lastRelayCheck = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -23,13 +24,20 @@ void loop() {
     lastHeartbeat = millis();
   }
 
-  bool status = getRelayStatus();
+  // cek status relay setia p 1 detik
+  if(millis() - lastRelayCheck > 1000){
+    bool status = getRelayStatus();
+  
+    if(status) {
+      relayOn();
+      Serial.println("Relay on");
+    } else {
+      relayOff();
+      Serial.println("Relay off");
+    }
 
-  if(status) {
-    relayOn();
-  } else {
-    relayOff();
+    lastRelayCheck = millis();
   }
 
-  delay(200);
+  delay(50);
 }

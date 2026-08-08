@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <WiFi.h>
+#include <WiFiClientSecure.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
@@ -9,82 +10,101 @@
 
 void sendHeartbeat(){
 
-  if (WiFi.status() != WL_CONNECTED) {
+  if(WiFi.status() != WL_CONNECTED){
     return;
   }
 
+  WiFiClientSecure client;
 
-  if(WiFi.status()==WL_CONNECTED){
+  client.setInsecure();
 
+  HTTPClient http;
 
-    HTTPClient http;
+  String url = String(API_URL) + "/devices/heartbeat";
 
+  Serial.println("HeartBeat: ");
+  Serial.println(url);
 
-    http.begin(
-      String(API_URL) + "/devices/heartbeat"
-    );
+  if(!http.begin(client, url)){
+    Serial.println("HTTP begin failed");
+    return;
+  }
 
+  http.addHeader("Content-Type", "application/json");
 
-    http.addHeader(
-    "Content-Type",
-    "application/json"
-    );
-
-
-
-    String body = 
+  String body = 
     "{"
-    "\"code\":\""+String(DEVICE_CODE)+"\","
-    "\"ip\":\""+WiFi.localIP().toString()+"\""
+    "\"code\":\"" + String(DEVICE_CODE) + "\","
+    "\"ip\":\"" + WiFi.localIP().toString() + "\""
     "}";
 
+  int response = http.POST(body);
 
+  if(response == 200) {
+    Serial.println("Heatbeat OK");
+  }else {
+    Serial.println("Heatbeat Failed: ");
+    Serial.println(response);
 
-    int response = http.POST(body);
-
-    if (response == 200) {
-      Serial.println("Heartbeat OK");
-    }else {
-      Serial.print("Heartbeat Failed: ");
-      Serial.println(response);
+    if(response > 0) {
+      Serial.println(http.getString());
     }
-
-    http.end();
   }
+
+  http.end();
 }
 
 bool getRelayStatus(){
 
-  if (WiFi.status() != WL_CONNECTED) {
+  if(WiFi.status() != WL_CONNECTED){
     return false;
   }
 
-  if(WiFi.status()==WL_CONNECTED){
+  WiFiClientSecure client;
 
-    HTTPClient http;
+  client.setInsecure();
 
-    http.begin(
-      String(API_URL) + "/devices/" + DEVICE_CODE + "/status"
-    );
+  HTTPClient http;
 
-    int response = http.GET();
-    
-    if(response == 200){
-      String data = http.getString();
+  String url = 
+    String(API_URL) + "/devices/" + String(DEVICE_CODE) + "/status";
 
-      Serial.println(data);
+  Serial.println("Relay status URL: ");
+  Serial.println(url);
 
-      StaticJsonDocument<200> doc;
-
-      deserializeJson(doc,data);
-
-      bool relay = doc["relay"];
-
-      http.end();
-
-      return relay;
-    }
-    http.end();
+  if(!http.begin(client, url)){
+    Serial.println("HTTP begin failed");
+    return false;
   }
+
+  int response = http.GET();
+
+  if(response == 200) {
+    String data = http.getString();
+
+    Serial.println("Response: ");
+    Serial.println(data);
+
+    StaticJsonDocument<200> doc;
+
+    DeserializationError error = deserializeJson(doc, data);
+
+    if(error) {
+      Serial.println("JSON parse failed");
+      http.end();
+      return false;
+    }
+
+    bool relay = doc["relay"];
+
+    http.end();
+
+    return relay;
+  }
+
+  Serial.println("Relay status request failed: ");
+  Serial.println(response);
+  
+  http.end();
   return false;
 }
