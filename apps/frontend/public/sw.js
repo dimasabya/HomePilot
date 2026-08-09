@@ -1,4 +1,4 @@
-const CACHE_NAME = "homepilot-v5";
+const CACHE_NAME = "homepilot-v6";
 
 const APP_SHELL = [
   "/",
@@ -71,6 +71,11 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
   const url = new URL(event.request.url);
+
+  // Jangan cache request internal Next.js / RSC
+  if (url.pathname.startsWith("/_next/") || url.searchParams.has("_rsc")) {
+    return;
+  }
 
   // ==========================
   // API
