@@ -8,14 +8,15 @@ import {
   updateDevice,
   deleteDevice,
 } from "../controllers/device.controller";
+import { deviceAuth } from "../middleware/deviceAuth";
 
 const router = Router();
 
 router.get("/", DeviceController.getAll);
 
-router.post("/heartbeat", heartbeat);
+router.post("/heartbeat", deviceAuth, heartbeat);
 
-router.get("/:code/status", getDeviceStatus);
+router.get("/:code/status", deviceAuth, getDeviceStatus);
 
 router.get("/:id", DeviceController.getById);
 

@@ -35,6 +35,8 @@ model Device {
 
   lastSeen DateTime?
 
+  deviceTokenHash String? @unique
+
 
   createdAt DateTime @default(now())
 

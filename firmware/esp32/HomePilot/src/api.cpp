@@ -31,6 +31,10 @@ void sendHeartbeat(){
   }
 
   http.addHeader("Content-Type", "application/json");
+  http.addHeader(
+  "Authorization",
+  "Bearer " + String(DEVICE_TOKEN)
+);
 
   String body = 
     "{"
@@ -76,6 +80,11 @@ bool getRelayStatus(){
     Serial.println("HTTP begin failed");
     return false;
   }
+
+  http.addHeader(
+  "Authorization",
+  "Bearer " + String(DEVICE_TOKEN)
+  );
 
   int response = http.GET();
 

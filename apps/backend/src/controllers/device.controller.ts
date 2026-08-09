@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { DeviceService } from "../services/device.service";
 import prisma from "../prisma/client";
+import crypto from "crypto";
 
 export class DeviceController {
   static async getAll(req: Request, res: Response) {
@@ -29,6 +30,12 @@ export async function updateRelay(req: Request, res: Response) {
     const id = Number(req.params.id);
 
     const { relay } = req.body;
+
+    if (typeof relay !== "boolean") {
+      return res.status(400).json({
+        message: "relay must be a boolean",
+      });
+    }
 
     const device = await DeviceService.updateRelay(id, relay);
 
@@ -94,16 +101,24 @@ export async function createDevice(req: Request, res: Response) {
   try {
     const { name, code, room, ip } = req.body;
 
+    const deviceToken = crypto.randomBytes(32).toString("hex");
+
+    const deviceTokenHash = crypto
+      .createHash("sha256")
+      .update(deviceToken)
+      .digest("hex");
+
     const device = await prisma.device.create({
       data: {
         name,
         code,
         room,
         ip,
+        deviceTokenHash,
       },
     });
 
-    res.json(device);
+    res.status(201).json({ device, deviceToken });
   } catch (error) {
     res.status(500).json({
       message: "Failed create device",

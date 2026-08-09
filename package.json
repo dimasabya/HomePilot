@@ -11,7 +11,9 @@
     "dev:frontend": "npm run dev --workspace=frontend",
     "dev:backend": "npm run dev --workspace=api",
     "build:frontend": "npm run build --workspace=frontend",
-    "build:backend": "npm run build --workspace=api"
+    "build:backend": "npm run build --workspace=api",
+    "prisma:push": "npm run prisma:push --workspace=api",
+    "prisma:generate": "npm run prisma:generate --workspace=api"
   },
   "devDependencies": {
     "concurrently": "^10.0.4"
