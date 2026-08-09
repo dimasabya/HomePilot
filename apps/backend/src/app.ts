@@ -4,6 +4,7 @@ import cors from "cors";
 import healthRoute from "./routes/health.route";
 import deviceRoute from "./routes/device.route";
 import dashboardRoute from "./routes/dashboard.route";
+import authRoute from "./routes/aut.route";
 
 const app = express();
 
@@ -17,5 +18,7 @@ app.use(express.json());
 app.use("/health", healthRoute);
 app.use("/devices", deviceRoute);
 app.use("/dashboard", dashboardRoute);
+
+app.use("/auth", authRoute);
 
 export default app;
