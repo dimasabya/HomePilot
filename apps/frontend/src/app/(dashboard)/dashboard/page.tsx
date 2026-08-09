@@ -21,7 +21,7 @@ export default function DashboardPage() {
 
   const devicesOnline = useDeviceStore((state) => state.devices);
 
-  const onlineDevice = devicesOnline.filter((device) => device.online).length;
+  const onlineDevice = devicesOnline.filter((device) => device.online);
 
   const relayOnDevice = devicesOnline.filter((d) => d.relay);
 
@@ -63,7 +63,7 @@ export default function DashboardPage() {
 
         <StatCard
           title="Online"
-          value={onlineDevice}
+          value={onlineDevice.length}
           icon={<Wifi size={24} />}
         />
 
