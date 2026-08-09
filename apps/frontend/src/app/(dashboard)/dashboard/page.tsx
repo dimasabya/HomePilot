@@ -21,16 +21,16 @@ export default function DashboardPage() {
 
   const devicesOnline = useDeviceStore((state) => state.devices);
 
-  const onlineDevice = devicesOnline.filter((device) => device.online);
-  console.log(onlineDevice);
-  console.log(devicesOnline);
+  const onlineDevice = devicesOnline.filter((device) => device.online).length;
 
   const relayOnDevice = devicesOnline.filter((d) => d.relay);
 
+  const totalDevices = devicesOnline.length;
+
   const setSummary = useDashboardStore((state) => state.setSummary);
 
-  const { offlineDevices, onlineDevices, relayOff, relayOn, totalDevices } =
-    useDashboardStore();
+  // const { offlineDevices, onlineDevices, relayOff, relayOn, totalDevices } =
+  //   useDashboardStore();
 
   useEffect(() => {
     async function load() {
@@ -63,7 +63,7 @@ export default function DashboardPage() {
 
         <StatCard
           title="Online"
-          value={onlineDevices}
+          value={onlineDevice}
           icon={<Wifi size={24} />}
         />
 

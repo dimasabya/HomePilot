@@ -1,4 +1,4 @@
-const CACHE_NAME = "homepilot-v4";
+const CACHE_NAME = "homepilot-v5";
 
 const APP_SHELL = [
   "/",
@@ -84,7 +84,7 @@ self.addEventListener("fetch", (event) => {
   // Halaman
   // ==========================
   if (event.request.mode === "navigate") {
-    event.respondWith(networkFirst(event.request));
+    event.respondWith(fetch(event.request));
     return;
   }
 
