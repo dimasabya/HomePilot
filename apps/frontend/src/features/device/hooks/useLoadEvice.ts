@@ -17,6 +17,8 @@ export function useLoadDevices() {
 
         const devices = await DeviceRepository.getAll();
 
+        console.log("DEVICES FROM API:", devices);
+
         setDevices(devices);
       } finally {
         setLoading(false);

@@ -4,7 +4,13 @@ import { useEffect } from "react";
 
 export function useSSE(onMessage: (data: unknown) => void) {
   useEffect(() => {
-    const eventSource = new EventSource("/api/events");
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+    if (!apiUrl) {
+      throw new Error("NEXT_PUBLIC_API_URL is not defined");
+    }
+
+    const eventSource = new EventSource(`${apiUrl}/events`);
 
     eventSource.onopen = () => {
       console.log("✅ SSE Connected");

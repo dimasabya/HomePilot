@@ -1,8 +1,7 @@
-const CACHE_NAME = "homepilot-v3";
+const CACHE_NAME = "homepilot-v4";
 
 const APP_SHELL = [
   "/",
-  "/dashboard",
   "/manifest.webmanifest",
   "/favicon.ico",
   "/apple-touch-icon.png",
@@ -58,6 +57,8 @@ self.addEventListener("activate", (event) => {
             console.log("Delete cache:", key);
             return caches.delete(key);
           }
+
+          return null;
         }),
       );
 
