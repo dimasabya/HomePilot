@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { AuthService } from "../services/auth.service";
+import { generateToken } from "../utils/jwt";
+import { AuthRequest } from "../middleware/auth.middleware";
 
 export class AuthController {
   static async register(req: Request, res: Response) {
@@ -31,6 +33,22 @@ export class AuthController {
         });
       }
 
+      // Validasi name
+      if (!name.trim()) {
+        return res.status(400).json({
+          message: "Nama tidak boleh kosong",
+        });
+      }
+
+      // Validasi email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(email.trim())) {
+        return res.status(400).json({
+          message: "Format email tidak valid",
+        });
+      }
+
       if (password.length < 8) {
         return res.status(400).json({
           message: "password minimal 8 karakter",
@@ -56,5 +74,79 @@ export class AuthController {
         message: "Gagal register",
       });
     }
+  }
+
+  static async login(req: Request, res: Response) {
+    try {
+      const { email, password } = req.body;
+
+      if (!email || !password) {
+        return res.status(400).json({
+          message: "email dan password harus diisi",
+        });
+      }
+
+      if (typeof email !== "string") {
+        return res.status(400).json({
+          message: "email harus berupa string",
+        });
+      }
+
+      if (typeof password !== "string") {
+        return res.status(400).json({
+          message: "password harus berupa string",
+        });
+      }
+
+      const user = await AuthService.login(email, password);
+
+      const token = generateToken({
+        userId: String(user.id),
+        role: user.role,
+      });
+
+      res.cookie("accessToken", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+
+      return res.status(200).json({
+        message: "Login Berhasil",
+        user,
+      });
+    } catch (error) {
+      if (error instanceof Error && error.message === "Invalid credentials") {
+        return res.status(401).json({
+          message: "Email atau password salah",
+        });
+      }
+
+      console.error("Login error: ", error);
+
+      return res.status(500).json({
+        message: "Gagal login",
+      });
+    }
+  }
+
+  static async logout(req: Request, res: Response) {
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    });
+
+    return res.status(200).json({
+      message: "Logout Berhasil",
+    });
+  }
+
+  static async me(req: AuthRequest, res: Response) {
+    return res.status(200).json({
+      message: "Authentication success",
+      user: req.user,
+    });
   }
 }

@@ -16,6 +16,12 @@
     "prisma:generate": "npm run prisma:generate --workspace=api"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/jsonwebtoken": "^9.0.10",
     "concurrently": "^10.0.4"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "jsonwebtoken": "^9.0.3"
   }
 }

@@ -5,6 +5,7 @@ import healthRoute from "./routes/health.route";
 import deviceRoute from "./routes/device.route";
 import dashboardRoute from "./routes/dashboard.route";
 import authRoute from "./routes/aut.route";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(
   }),
 );
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/health", healthRoute);
 app.use("/devices", deviceRoute);
