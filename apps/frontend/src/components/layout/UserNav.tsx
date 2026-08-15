@@ -9,8 +9,24 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/auth-context";
 
 export default function UserNav() {
+  const router = useRouter();
+  const { user, logout } = useAuth();
+
+  console.log("ini", user);
+
+  async function handleLogout() {
+    try {
+      await logout();
+      router.replace("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center gap-3 rounded-lg p-2 hover:bg-accent transition">
@@ -19,9 +35,9 @@ export default function UserNav() {
         </Avatar>
 
         <div className="hidden text-left md:block">
-          <p className="text-sm font-semibold">Dimas Yasir</p>
+          <p className="text-sm font-semibold">{user?.name}</p>
 
-          <p className="text-xs text-muted-foreground">Administrator</p>
+          <p className="text-xs text-muted-foreground">{user?.role}</p>
         </div>
       </DropdownMenuTrigger>
 
@@ -32,7 +48,11 @@ export default function UserNav() {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>Logout</DropdownMenuItem>
+        <DropdownMenuItem>
+          <button type="button" onClick={handleLogout}>
+            Logout
+          </button>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

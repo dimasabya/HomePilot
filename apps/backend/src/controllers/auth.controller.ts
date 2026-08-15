@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AuthService } from "../services/auth.service";
 import { generateToken } from "../utils/jwt";
 import { AuthRequest } from "../middleware/auth.middleware";
+import prisma from "../prisma/client";
 
 export class AuthController {
   static async register(req: Request, res: Response) {
@@ -144,9 +145,41 @@ export class AuthController {
   }
 
   static async me(req: AuthRequest, res: Response) {
-    return res.status(200).json({
-      message: "Authentication success",
-      user: req.user,
-    });
+    try {
+      if (!req.user) {
+        return res.status(401).json({
+          message: "Authentication required",
+        });
+      }
+
+      const user = await prisma.user.findUnique({
+        where: {
+          id: Number(req.user.userId),
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+        },
+      });
+
+      if (!user) {
+        return res.status(404).json({
+          message: "User tidak ditemukan",
+        });
+      }
+
+      return res.status(200).json({
+        message: "Authentication success",
+        user,
+      });
+    } catch (error) {
+      console.error("Auth me error:", error);
+
+      return res.status(500).json({
+        message: "Gagal mengambil data user",
+      });
+    }
   }
 }
