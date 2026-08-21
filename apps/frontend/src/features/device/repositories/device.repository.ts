@@ -7,6 +7,11 @@ export class DeviceRepository {
     return res.data;
   }
 
+  static async getMyDevices() {
+    const res = await api.get("/devices/me");
+    return res.data.devices;
+  }
+
   static async getById(id: number) {
     const res = await api.get(`/devices/${id}`);
     return res.data;

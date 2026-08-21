@@ -18,14 +18,14 @@ router.post("/heartbeat", deviceAuth, DeviceController.heartbeat);
 
 router.get("/:code/status", deviceAuth, DeviceController.getDeviceStatus);
 
+router.get("/me", authenticate, DeviceController.getByUser);
+
 router.get(
-  "/me",
+  "/:id",
   authenticate,
   requireDeviceOwnership,
-  DeviceController.getByUser,
+  DeviceController.getById,
 );
-
-router.get("/:id", DeviceController.getById);
 
 router.patch("/:id/relay", authenticate, requireDeviceOwnership, updateRelay);
 

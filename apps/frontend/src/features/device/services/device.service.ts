@@ -5,6 +5,10 @@ export class DeviceService {
     return DeviceRepository.getAll();
   }
 
+  static async getMyDevices() {
+    return DeviceRepository.getMyDevices();
+  }
+
   static async getById(id: number) {
     return DeviceRepository.getById(id);
   }
