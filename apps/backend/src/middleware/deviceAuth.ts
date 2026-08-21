@@ -2,8 +2,16 @@ import crypto from "crypto";
 import { Request, Response, NextFunction } from "express";
 import prisma from "../prisma/client";
 
+export interface DeviceRequest extends Request {
+  device?: {
+    id: number;
+    code: string;
+    userId: number | null;
+  };
+}
+
 export async function deviceAuth(
-  req: Request,
+  req: DeviceRequest,
   res: Response,
   next: NextFunction,
 ) {
@@ -31,6 +39,12 @@ export async function deviceAuth(
         message: "Invalid device token",
       });
     }
+
+    req.device = {
+      id: device.id,
+      code: device.code,
+      userId: device.userId,
+    };
 
     next();
   } catch (error) {
