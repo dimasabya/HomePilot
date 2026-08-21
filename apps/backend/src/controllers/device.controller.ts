@@ -203,24 +203,49 @@ export class DeviceController {
   }
 }
 
-export async function updateRelay(req: Request, res: Response) {
-  try {
-    const id = Number(req.params.id);
+// export async function updateRelay(req: Request, res: Response) {
+//   try {
+//     const id = Number(req.params.id);
 
+//     const { relay } = req.body;
+
+//     if (typeof relay !== "boolean") {
+//       return res.status(400).json({
+//         message: "relay must be a boolean",
+//       });
+//     }
+
+//     const device = await DeviceService.updateRelay(id, relay);
+
+//     res.json(device);
+//   } catch (error) {
+//     res.status(500).json({
+//       message: "Failed update relay",
+//     });
+//   }
+// }
+export async function updateRelay(req: AuthRequest, res: Response) {
+  try {
+    const deviceId = Number(req.params.id);
     const { relay } = req.body;
 
     if (typeof relay !== "boolean") {
       return res.status(400).json({
-        message: "relay must be a boolean",
+        message: "relay harus berupa boolean",
       });
     }
 
-    const device = await DeviceService.updateRelay(id, relay);
+    const device = await DeviceService.updateRelay(deviceId, relay);
 
-    res.json(device);
+    return res.status(200).json({
+      message: "Relay berhasil diperbarui",
+      device,
+    });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed update relay",
+    console.error("Update relay error:", error);
+
+    return res.status(500).json({
+      message: "Gagal memperbarui relay",
     });
   }
 }

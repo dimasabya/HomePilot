@@ -67,6 +67,15 @@ export class DeviceService {
       data: {
         relay,
       },
+      select: {
+        id: true,
+        name: true,
+        code: true,
+        room: true,
+        online: true,
+        relay: true,
+        lastSeen: true,
+      },
     });
   }
 
